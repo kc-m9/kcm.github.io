@@ -101,6 +101,7 @@
             color: var(--accent); text-decoration: none;
             display: flex; align-items: center; gap: 0.5rem;
             letter-spacing: -0.5px;
+            cursor: pointer;
         }
         .logo::before {
             content: '>';
@@ -199,15 +200,8 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: clamp(0.9rem, 2vw, 1.05rem);
             color: var(--text-secondary);
-            margin-bottom: 0.6rem;
-            min-height: 1.6em;
-        }
-
-        .hero-meta {
-            color: var(--text-muted);
-            font-size: 0.92rem;
             margin-bottom: 2.2rem;
-            display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+            min-height: 1.6em;
         }
 
         .hero-actions {
@@ -651,30 +645,6 @@
         }
         .contact-row a:hover { opacity: 0.8; text-decoration: underline; }
 
-        .socials {
-            display: flex; justify-content: center; gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-        .socials a {
-            width: 46px; height: 46px;
-            display: flex; align-items: center; justify-content: center;
-            background: var(--bg-secondary);
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            color: var(--text-secondary);
-            font-size: 0.78rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .socials a:hover {
-            border-color: var(--accent); color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px var(--accent-glow);
-            background: rgba(0, 230, 118, 0.04);
-        }
-
         /* ── Footer ── */
         footer {
             text-align: center; padding: 2rem;
@@ -769,7 +739,7 @@
 
     <!-- Navigation -->
     <nav id="navbar">
-        <a href="#" class="logo">kayden_sec</a>
+        <a href="#" class="logo" id="logoLink">kayden_sec</a>
         <ul class="nav-links" id="navLinks">
             <li><a href="#about" data-scroll>About</a></li>
             <li><a href="#education" data-scroll>Education</a></li>
@@ -794,10 +764,9 @@
                 <span class="highlight">Carrasquillo-Marrero</span>
             </h1>
             <p class="hero-subtitle" id="typewriter"></p>
-            <p class="hero-meta">📍 Ocala, FL &nbsp;•&nbsp; Bilingual: English & Spanish</p>
             <div class="hero-actions">
                 <a href="#projects" class="btn btn-primary" data-scroll>View My Work</a>
-                <a href="mailto:kaydencarrasquillomarrero@outlook.com" class="btn btn-secondary">Contact Me</a>
+                <a href="#contact" class="btn btn-secondary" data-scroll>Contact Me</a>
             </div>
         </div>
     </section>
@@ -1126,7 +1095,7 @@
                 </div>
                 <div class="contact-row">
                     <span>📱</span>
-                    <span>(954) 330-0561</span>
+                    <a href="tel:+19543300561">(954) 330-0561</a>
                 </div>
                 <div class="contact-row">
                     <span>📍</span>
@@ -1134,12 +1103,6 @@
                 </div>
             </div>
             <a href="mailto:kaydencarrasquillomarrero@outlook.com" class="btn btn-primary">Send Email</a>
-            <div class="socials">
-                <a href="#" title="LinkedIn">LI</a>
-                <a href="#" title="GitHub">GH</a>
-                <a href="#" title="TryHackMe">THM</a>
-                <a href="#" title="Hack The Box">HTB</a>
-            </div>
         </div>
     </section>
 
@@ -1177,6 +1140,12 @@
             scrollTop.classList.toggle('visible', window.scrollY > 600);
         });
 
+        // ── Logo scroll to top ──
+        document.getElementById('logoLink').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
         // ── Mobile menu ──
         const mobileToggle = document.getElementById('mobileToggle');
         const navLinks = document.getElementById('navLinks');
@@ -1198,7 +1167,6 @@
                         const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
                     }
-                    // Close mobile menu
                     navLinks.classList.remove('open');
                     mobileToggle.textContent = '☰';
                 }
