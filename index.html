@@ -9,47 +9,44 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ================================================================ */
-        /*  CSS CUSTOM PROPERTIES (Design Tokens)                             */
-        /*  Single source of truth for colors, spacing, transitions.         */
-        /*  Theme: Pitch-black bg + bright neon cyan-blue accent.            */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           DESIGN TOKENS
+           ── Brighter navy blue (#2563eb) with vivid glow halo.
+           ═══════════════════════════════════════════════════════════════ */
         :root {
-            /* Background Layers */
+            /* Backgrounds */
             --bg-primary:   #000000;
             --bg-secondary: #020205;
             --bg-card:      #08080f;
             --bg-elevated:  #0f0f1a;
 
-            /* Accent: Bright Neon Cyan-Blue */
-            --accent:             #0ea5e9;
-            --accent-dim:         #0284c7;
-            --accent-glow:        rgba(14, 165, 233, 0.15);
-            --accent-glow-strong: rgba(14, 165, 233, 0.35);
+            /* Brighter navy accent */
+            --accent:             #2563eb;   /* brighter navy */
+            --accent-bright:      #60a5fa;   /* vivid blue for glows */
+            --accent-glow:        rgba(96, 165, 250, 0.55);
+            --accent-glow-strong: rgba(96, 165, 250, 0.95);
 
-            /* Text Colors */
+            /* Text */
             --text-primary:   #e2e8f0;
             --text-secondary: #8892a0;
-            --text-muted:       #4a5060;
+            --text-muted:     #4a5060;
 
             /* Borders */
             --border:       #11111a;
             --border-hover: #1a1a2e;
 
-            /* Utility Colors */
+            /* Utility */
             --danger:  #ef4444;
             --warning: #f59e0b;
 
-            /* Motion Tokens */
+            /* Motion */
             --ease-out:    cubic-bezier(0.4, 0, 0.2, 1);
             --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* ================================================================ */
-        /*  RESET & BASE STYLES                                              */
-        /*  Strip browser defaults, set smooth scroll, establish base       */
-        /*  font and background for the entire document.                     */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           RESET & BASE
+           ═══════════════════════════════════════════════════════════════ */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
 
@@ -60,26 +57,21 @@
             line-height: 1.65;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ================================================================ */
-        /*  BACKGROUND EFFECTS                                               */
-        /*  1. Subtle grid overlay (very faint blue lines)                   */
-        /*  2. Two floating radial glows for ambient depth                 */
-        /*  3. CRT scanline overlay for retro-hacker aesthetic              */
-        /*  All sit at z-index:0 so content layers above them.               */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           BACKGROUND EFFECTS
+           ── Grid overlay, floating glow orbs, CRT scanlines.
+           ═══════════════════════════════════════════════════════════════ */
         .bg-grid {
             position: fixed; inset: 0;
             background-image:
-                linear-gradient(rgba(14, 165, 233, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(14, 165, 233, 0.03) 1px, transparent 1px);
+                linear-gradient(rgba(96, 165, 250, 0.06) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(96, 165, 250, 0.06) 1px, transparent 1px);
             background-size: 64px 64px;
             pointer-events: none; z-index: 0;
         }
 
-        /* Primary floating glow -- top-right, blue-tinted */
         .bg-glow {
             position: fixed; width: 600px; height: 600px;
             border-radius: 50%;
@@ -89,17 +81,15 @@
             animation: float 10s ease-in-out infinite;
         }
 
-        /* Secondary floating glow -- bottom-left, purple-tinted for contrast */
         .bg-glow-2 {
             position: fixed; width: 500px; height: 500px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.06) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.14) 0%, transparent 70%);
             bottom: -120px; left: -120px;
             pointer-events: none; z-index: 0;
             animation: float-reverse 12s ease-in-out infinite;
         }
 
-        /* CRT scanline effect -- subtle horizontal lines like an old monitor */
         .scanlines {
             position: fixed; inset: 0;
             background: repeating-linear-gradient(
@@ -122,11 +112,11 @@
             50% { transform: translate(25px, -25px); }
         }
 
-        /* ================================================================ */
-        /*  NAVIGATION BAR                                                   */
-        /*  Fixed position, glassmorphism backdrop on scroll.                */
-        /*  Shrinks and deepens background when user scrolls past 40px.      */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           NAVIGATION
+           ── Fixed top, glassmorphism backdrop.
+           ── Compacts when scrolled past 40px.
+           ═══════════════════════════════════════════════════════════════ */
         nav {
             position: fixed; top: 0; left: 0; right: 0;
             padding: 1rem 5%;
@@ -139,14 +129,13 @@
             transition: padding 0.3s, background 0.3s;
         }
 
-        /* Compact mode when scrolled */
         nav.scrolled {
             padding: 0.7rem 5%;
             background: rgba(0, 0, 0, 0.95);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
         }
 
-        /* Logo: monospace font with a blinking '>' prompt character */
+        /* Logo: monospace with blinking '>' prompt */
         .logo {
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.15rem; font-weight: 700;
@@ -160,14 +149,7 @@
             animation: blink 1.2s step-end infinite;
         }
         @keyframes blink { 50% { opacity: 0; } }
-        }
-        .logo::before {
-            content: '>';
-            animation: blink 1.2s step-end infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
 
-        /* Desktop Navigation Links */
         .nav-links {
             display: flex; gap: 2.2rem;
             list-style: none; align-items: center;
@@ -181,7 +163,7 @@
             cursor: pointer;
         }
 
-        /* Animated underline slides in from left on hover/active */
+        /* Animated underline on hover/active */
         .nav-links a::after {
             content: ''; position: absolute;
             bottom: -2px; left: 0;
@@ -199,7 +181,6 @@
             width: 100%;
         }
 
-        /* Mobile Hamburger Toggle -- hidden on desktop */
         .mobile-toggle {
             display: none;
             background: none; border: none;
@@ -207,11 +188,11 @@
             cursor: pointer; padding: 0.3rem;
         }
 
-        /* ================================================================ */
-        /*  HERO SECTION                                                     */
-        /*  Full viewport height, centered content.                        */
-        /*  Features: status badge with pulsing dot, typewriter subtitle.    */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           HERO
+           ── Full viewport, centered.
+           ── Status badge with pulsing dot, typewriter subtitle.
+           ═══════════════════════════════════════════════════════════════ */
         .hero {
             min-height: 100vh;
             display: flex; align-items: center; justify-content: center;
@@ -223,7 +204,6 @@
             text-align: center; max-width: 800px;
         }
 
-        /* Status badge -- "Open to Opportunities" with live pulse */
         .status-badge {
             display: inline-flex; align-items: center; gap: 0.6rem;
             padding: 0.55rem 1.4rem;
@@ -245,8 +225,8 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
-            50% { opacity: 0.55; box-shadow: 0 0 0 6px rgba(14, 165, 233, 0); }
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.65); }
+            50% { opacity: 0.55; box-shadow: 0 0 0 6px rgba(96, 165, 250, 0); }
         }
 
         .hero h1 {
@@ -275,11 +255,10 @@
             justify-content: center; flex-wrap: wrap;
         }
 
-        /* ================================================================ */
-        /*  BUTTONS                                                          */
-        /*  Primary: filled accent color.                                    */
-        /*  Secondary: transparent with border.                              */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           BUTTONS
+           ── Black base, bright navy glow outline on hover.
+           ═══════════════════════════════════════════════════════════════ */
         .btn {
             padding: 0.85rem 1.9rem;
             border-radius: 10px;
@@ -292,28 +271,36 @@
         }
 
         .btn-primary {
-            background: var(--accent); color: #000;
+            background: #000;
+            color: var(--text-primary);
+            border: 1.5px solid var(--border);
         }
         .btn-primary:hover {
-            background: var(--accent-dim);
+            border-color: var(--accent-bright);
+            color: var(--accent-bright);
             transform: translateY(-2px);
-            box-shadow: 0 12px 35px var(--accent-glow-strong);
+            box-shadow:
+                0 0 20px var(--accent-glow-strong),
+                0 0 50px var(--accent-glow);
         }
 
         .btn-secondary {
-            background: transparent; color: var(--text-primary);
+            background: transparent;
+            color: var(--text-primary);
             border: 1.5px solid var(--border);
         }
         .btn-secondary:hover {
-            border-color: var(--accent); color: var(--accent);
+            border-color: var(--accent-bright);
+            color: var(--accent-bright);
             transform: translateY(-2px);
-            background: rgba(14, 165, 233, 0.05);
+            box-shadow:
+                0 0 20px var(--accent-glow-strong),
+                0 0 50px var(--accent-glow);
         }
 
-        /* ================================================================ */
-        /*  SECTION LAYOUT UTILITIES                                         */
-        /*  Reusable header pattern: tag + title + description.              */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           SECTION UTILITIES
+           ═══════════════════════════════════════════════════════════════ */
         section {
             padding: 5.5rem 5%;
             position: relative; z-index: 1;
@@ -343,10 +330,10 @@
             font-size: 1rem; line-height: 1.7;
         }
 
-        /* ================================================================ */
-        /*  ABOUT SECTION                                                    */
-        /*  Two-column grid: bio narrative left, faux terminal right.        */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           ABOUT
+           ── Two-column: bio left, faux terminal right.
+           ═══════════════════════════════════════════════════════════════ */
         .about { background: var(--bg-secondary); }
 
         .about-grid {
@@ -370,7 +357,6 @@
 
         .about-text strong { color: var(--text-primary); font-weight: 600; }
 
-        /* Highlight list with '>' chevron bullets */
         .about-highlights {
             display: flex; flex-direction: column; gap: 0.65rem;
             margin-top: 1.4rem;
@@ -387,7 +373,7 @@
             font-size: 1.1rem; line-height: 1.3; flex-shrink: 0;
         }
 
-        /* Faux Terminal Window -- mimics macOS terminal with traffic-light buttons */
+        /* Faux macOS terminal */
         .terminal {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -403,7 +389,6 @@
             border-bottom: 1px solid var(--border);
         }
 
-        /* Traffic light buttons: red, yellow, green */
         .t-btn { width: 11px; height: 11px; border-radius: 50%; }
         .t-btn.r { background: var(--danger); }
         .t-btn.y { background: var(--warning); }
@@ -422,10 +407,9 @@
         .t-blink { animation: t-blink 1s step-end infinite; }
         @keyframes t-blink { 50% { opacity: 0; } }
 
-        /* ================================================================ */
-        /*  EDUCATION SECTION                                                */
-        /*  Single featured card with badge and tag cloud.                   */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           EDUCATION
+           ═══════════════════════════════════════════════════════════════ */
         .edu-card {
             max-width: 780px; margin: 0 auto;
             background: var(--bg-card);
@@ -444,14 +428,18 @@
         }
         .edu-header h3 { font-size: 1.35rem; font-weight: 700; }
 
+        /* CAE-CD badge — high contrast for readability */
         .edu-badge {
-            padding: 0.3rem 0.85rem;
-            background: var(--accent-glow);
-            border: 1px solid rgba(14, 165, 233, 0.25);
+            padding: 0.35rem 1rem;
+            background: rgba(37, 99, 235, 0.15);
+            border: 1.5px solid rgba(96, 165, 250, 0.45);
             border-radius: 6px;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem; color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent-bright);
             white-space: nowrap;
+            letter-spacing: 0.3px;
         }
 
         .edu-school {
@@ -476,11 +464,10 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* ================================================================ */
-        /*  SKILLS SECTION                                                   */
-        /*  Auto-fitting grid of skill category cards.                       */
-        /*  Each card has an icon, title, and tag cloud.                     */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           SKILLS
+           ── Auto-fit grid of category cards with tag clouds.
+           ═══════════════════════════════════════════════════════════════ */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -526,14 +513,13 @@
         .skill-tag:hover {
             border-color: var(--accent);
             color: var(--accent);
-            background: rgba(14, 165, 233, 0.05);
+            background: rgba(96, 165, 250, 0.08);
         }
 
-        /* ================================================================ */
-        /*  EXPERIENCE / TIMELINE SECTION                                    */
-        /*  Vertical timeline with accent-colored connector line.            */
-        /*  Each item has a dot, card, date badge, and bullet list.          */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           EXPERIENCE / TIMELINE
+           ── Vertical line with accent connector.
+           ═══════════════════════════════════════════════════════════════ */
         .experience { background: var(--bg-secondary); }
 
         .timeline {
@@ -541,7 +527,6 @@
             position: relative;
         }
 
-        /* Vertical gradient line connecting timeline items */
         .timeline::before {
             content: ''; position: absolute;
             left: 5px; top: 8px; bottom: 0;
@@ -604,10 +589,9 @@
             color: var(--text-muted); font-size: 0.75rem;
         }
 
-        /* ================================================================ */
-        /*  PROJECTS SECTION                                                 */
-        /*  Curated job-focused cards. Centered "IN PROGRESS" badge.         */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           PROJECTS
+           ═══════════════════════════════════════════════════════════════ */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -629,12 +613,11 @@
             box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45);
         }
 
-        /* Centered "IN PROGRESS" badge -- uses absolute positioning + translate */
         .project-card.in-progress::after {
             content: 'IN PROGRESS';
             position: absolute; top: 0.9rem;
             left: 50%;
-            transform: translateX(-50%) rotate(0deg);
+            transform: translateX(-50%);
             background: var(--warning); color: var(--bg-primary);
             font-size: 0.6rem; font-weight: 700;
             padding: 0.25rem 1rem;
@@ -651,12 +634,6 @@
             display: flex; justify-content: space-between; align-items: flex-start;
         }
         .project-folder { font-size: 1.4rem; }
-        .project-links { display: flex; gap: 0.8rem; }
-        .project-links a {
-            color: var(--text-muted); font-size: 1.1rem;
-            transition: color 0.2s; text-decoration: none;
-        }
-        .project-links a:hover { color: var(--accent); }
 
         .project-body {
             padding: 0.7rem 1.6rem 1.6rem;
@@ -673,16 +650,15 @@
         .project-tech span {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.72rem; color: var(--accent);
-            background: rgba(14, 165, 233, 0.06);
+            background: rgba(96, 165, 250, 0.08);
             padding: 0.25rem 0.6rem;
             border-radius: 4px;
-            border: 1px solid rgba(14, 165, 233, 0.12);
+            border: 1px solid rgba(96, 165, 250, 0.15);
         }
 
-        /* ================================================================ */
-        /*  CERTIFICATIONS SECTION                                           */
-        /*  Centered "IN PROGRESS" badge on each card.                       */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           CERTIFICATIONS
+           ═══════════════════════════════════════════════════════════════ */
         .certs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -703,12 +679,11 @@
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
         }
 
-        /* Centered badge -- same technique as project cards */
         .cert-card.in-progress::after {
             content: 'IN PROGRESS';
             position: absolute; top: 0.9rem;
             left: 50%;
-            transform: translateX(-50%) rotate(0deg);
+            transform: translateX(-50%);
             background: var(--warning); color: var(--bg-primary);
             font-size: 0.6rem; font-weight: 700;
             padding: 0.25rem 1rem;
@@ -732,9 +707,9 @@
         .cert-card h3 { font-size: 1.05rem; margin-bottom: 0.3rem; font-weight: 600; }
         .cert-card p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.55; }
 
-        /* ================================================================ */
-        /*  CONTACT SECTION                                                  */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           CONTACT
+           ═══════════════════════════════════════════════════════════════ */
         .contact { background: var(--bg-secondary); }
 
         .contact-card {
@@ -769,10 +744,9 @@
         }
         .contact-row a:hover { opacity: 0.8; text-decoration: underline; }
 
-        /* ================================================================ */
-        /*  FOOTER                                                           */
-        /*  Minimal -- no fluff, just name and year.                         */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           FOOTER
+           ═══════════════════════════════════════════════════════════════ */
         footer {
             text-align: center; padding: 2rem;
             color: var(--text-muted); font-size: 0.84rem;
@@ -780,10 +754,10 @@
             position: relative; z-index: 1;
         }
 
-        /* ================================================================ */
-        /*  SCROLL-TO-TOP BUTTON                                             */
-        /*  Fixed bottom-right. Appears after scrolling 600px.               */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           SCROLL-TO-TOP
+           ── Fixed bottom-right, appears after 600px scroll.
+           ═══════════════════════════════════════════════════════════════ */
         .scroll-top {
             position: fixed; bottom: 1.8rem; right: 1.8rem;
             width: 44px; height: 44px;
@@ -798,15 +772,16 @@
         }
         .scroll-top.visible { opacity: 1; pointer-events: auto; }
         .scroll-top:hover {
-            border-color: var(--accent);
-            background: var(--accent); color: #000;
+            border-color: var(--accent-bright);
+            background: var(--accent-bright); color: #000;
             transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--accent-glow-strong);
         }
 
-        /* ================================================================ */
-        /*  SCROLL-REVEAL ANIMATION                                          */
-        /*  Elements with .reveal class fade + slide up on scroll.           */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           SCROLL-REVEAL ANIMATION
+           ── Elements with .reveal fade + slide up on scroll.
+           ═══════════════════════════════════════════════════════════════ */
         .reveal {
             opacity: 0;
             transform: translateY(24px);
@@ -818,10 +793,9 @@
             transform: translateY(0);
         }
 
-        /* ================================================================ */
-        /*  RESPONSIVE BREAKPOINTS                                           */
-        /*  Mobile-first: hamburger nav, stacked grids, full-width btns.     */
-        /* ================================================================ */
+        /* ═══════════════════════════════════════════════════════════════
+           RESPONSIVE BREAKPOINTS
+           ═══════════════════════════════════════════════════════════════ */
         @media (max-width: 900px) {
             .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
         }
@@ -870,7 +844,7 @@
 </head>
 
 <body>
-    <!-- Ambient Background Layers + CRT Scanlines -->
+    <!-- Ambient background layers -->
     <div class="bg-grid"></div>
     <div class="bg-glow"></div>
     <div class="bg-glow-2"></div>
@@ -891,7 +865,7 @@
         <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">&#x2630;</button>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section class="hero">
         <div class="hero-content">
             <div class="status-badge">
@@ -910,7 +884,7 @@
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- About -->
     <section class="about" id="about">
         <div class="section-header reveal">
             <div class="section-tag">// whoami</div>
@@ -953,7 +927,7 @@
         </div>
     </section>
 
-    <!-- Education Section -->
+    <!-- Education -->
     <section id="education">
         <div class="section-header reveal">
             <div class="section-tag">// education</div>
@@ -980,7 +954,7 @@
         </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills -->
     <section id="skills">
         <div class="section-header reveal">
             <div class="section-tag">// arsenal</div>
@@ -1033,7 +1007,7 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
+    <!-- Experience -->
     <section class="experience" id="experience">
         <div class="section-header reveal">
             <div class="section-tag">// work_history</div>
@@ -1090,7 +1064,7 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Projects -->
     <section id="projects">
         <div class="section-header reveal">
             <div class="section-tag">// missions</div>
@@ -1098,15 +1072,9 @@
             <p class="section-desc">Hands-on, job-focused projects I'm actively building to bridge theory and real-world security operations.</p>
         </div>
         <div class="projects-grid">
-
-            <!-- Project 1: Home SIEM / SOC -->
             <div class="project-card in-progress reveal">
                 <div class="project-head">
                     <span class="project-folder">&#x1F4C1;</span>
-                    <div class="project-links">
-                        <a href="https://github.com/marxgoo/Wazuh-SOC-Lab" title="Wazuh SOC Lab">&#x1F4BB;</a>
-                        <a href="https://documentation.wazuh.com" title="Wazuh Docs">&#x1F4D6;</a>
-                    </div>
                 </div>
                 <div class="project-body">
                     <h3>Home SOC &mdash; Wazuh + Suricata + pfSense</h3>
@@ -1116,15 +1084,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Project 2: Malware Reverse Engineering -->
             <div class="project-card in-progress reveal">
                 <div class="project-head">
                     <span class="project-folder">&#x1F4C1;</span>
-                    <div class="project-links">
-                        <a href="https://github.com/NationalSecurityAgency/ghidra" title="Ghidra">&#x1F4BB;</a>
-                        <a href="https://yara.readthedocs.io" title="YARA Docs">&#x1F4D6;</a>
-                    </div>
                 </div>
                 <div class="project-body">
                     <h3>Malware Reverse Engineering &rarr; YARA Rules</h3>
@@ -1134,14 +1096,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Project 3: Detection-as-Code -->
             <div class="project-card in-progress reveal">
                 <div class="project-head">
                     <span class="project-folder">&#x1F4C1;</span>
-                    <div class="project-links">
-                        <a href="https://blog.runreveal.com/runreveal-detection-cicd-guide" title="Detection CI/CD Guide">&#x1F4BB;</a>
-                    </div>
                 </div>
                 <div class="project-body">
                     <h3>Detection-as-Code Pipeline</h3>
@@ -1151,15 +1108,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Project 4: Cloud Misconfiguration Hunt -->
             <div class="project-card in-progress reveal">
                 <div class="project-head">
                     <span class="project-folder">&#x1F4C1;</span>
-                    <div class="project-links">
-                        <a href="https://github.com/prowler-cloud/prowler" title="Prowler">&#x1F4BB;</a>
-                        <a href="https://github.com/nccgroup/ScoutSuite" title="ScoutSuite">&#x1F4D6;</a>
-                    </div>
                 </div>
                 <div class="project-body">
                     <h3>Cloud Misconfiguration Hunt (CSPM)</h3>
@@ -1169,14 +1120,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Project 5: Active Directory Attack & Defend -->
             <div class="project-card in-progress reveal">
                 <div class="project-head">
                     <span class="project-folder">&#x1F4C1;</span>
-                    <div class="project-links">
-                        <a href="https://github.com/Orange-Cyberdefense/GOAD" title="GOAD Lab">&#x1F4BB;</a>
-                    </div>
                 </div>
                 <div class="project-body">
                     <h3>Active Directory Attack &amp; Defend Lab</h3>
@@ -1186,14 +1132,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Project 6: LLM Red-Teaming -->
             <div class="project-card in-progress reveal">
                 <div class="project-head">
                     <span class="project-folder">&#x1F4C1;</span>
-                    <div class="project-links">
-                        <a href="https://github.com/NVIDIA/garak" title="Garak">&#x1F4BB;</a>
-                    </div>
                 </div>
                 <div class="project-body">
                     <h3>LLM Prompt Injection &amp; Red-Team Testing</h3>
@@ -1203,11 +1144,10 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Certifications Section -->
+    <!-- Certifications -->
     <section id="certs">
         <div class="section-header reveal">
             <div class="section-tag">// credentials</div>
@@ -1233,7 +1173,7 @@
         </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- Contact -->
     <section class="contact" id="contact">
         <div class="section-header reveal">
             <div class="section-tag">// establish_connection</div>
@@ -1266,13 +1206,12 @@
         <p>Kayden Carrasquillo-Marrero &bull; 2026</p>
     </footer>
 
-    <!-- Scroll-to-Top Button -->
+    <!-- Scroll-to-top button -->
     <div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">&#x2191;</div>
 
-    <!-- JavaScript -->
+    <!-- Scripts -->
     <script>
-        // Typewriter Effect
-        // Types out the subtitle character-by-character for a terminal feel.
+        // Typewriter effect for hero subtitle
         const text = "Cybersecurity Student | IT Support | Network & Systems Security";
         const el = document.getElementById('typewriter');
         let i = 0;
@@ -1285,26 +1224,25 @@
         }
         setTimeout(type, 600);
 
-        // Navbar scroll effect
-        // Adds .scrolled class when user scrolls >40px for compact look.
+        // Navbar compact mode on scroll
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             navbar.classList.toggle('scrolled', window.scrollY > 40);
         });
 
-        // Scroll to top button visibility
+        // Scroll-to-top visibility
         const scrollTop = document.getElementById('scrollTop');
         window.addEventListener('scroll', () => {
             scrollTop.classList.toggle('visible', window.scrollY > 600);
         });
 
-        // Logo click -> scroll to top
+        // Logo click scrolls to top
         document.getElementById('logoLink').addEventListener('click', (e) => {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Mobile hamburger menu toggle
+        // Mobile menu toggle
         const mobileToggle = document.getElementById('mobileToggle');
         const navLinks = document.getElementById('navLinks');
 
@@ -1313,7 +1251,7 @@
             mobileToggle.textContent = navLinks.classList.contains('open') ? '\u2715' : '\u2630';
         });
 
-        // Smooth scroll + mobile menu auto-close
+        // Smooth scroll + close mobile menu on link click
         document.querySelectorAll('a[data-scroll], .hero-actions a[href^="#"]').forEach(link => {
             link.addEventListener('click', (e) => {
                 const href = link.getAttribute('href');
@@ -1331,8 +1269,7 @@
             });
         });
 
-        // Active nav link on scroll
-        // Highlights the nav item whose section is currently in view.
+        // Active nav link highlighting on scroll
         const sections = document.querySelectorAll('section[id]');
         const navItems = document.querySelectorAll('.nav-links a[data-scroll]');
 
@@ -1349,8 +1286,7 @@
             });
         });
 
-        // Scroll-reveal animation
-        // Elements with .reveal class fade + slide up when entering viewport.
+        // Scroll-reveal animation via IntersectionObserver
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
